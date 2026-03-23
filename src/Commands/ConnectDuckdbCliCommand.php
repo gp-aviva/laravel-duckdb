@@ -43,5 +43,8 @@ class ConnectDuckdbCliCommand extends Command
     {
         $this->info('stopping...');
         $this->process->signal($signal);
+
+        // Retournez une valeur appropriée, par exemple le code de sortie précédent
+        return $previousExitCode;
     }
 }
