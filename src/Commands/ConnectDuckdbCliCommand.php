@@ -15,17 +15,17 @@ class ConnectDuckdbCliCommand extends Command
 
     public function handle(): void
     {
-        $connection = config('database.connections.'.$this->argument('connection_name'));
+        $connection = config('database.connections.' . $this->argument('connection_name'));
         $isReadonly = filter_var($this->option('readonly'), FILTER_VALIDATE_BOOLEAN);
-        if(!$connection || ($connection['driver']??'') !== 'duckdb') throw new \Exception("DuckDB connection named `".$this->argument('connection_name')."` not found!");
+        if (!$connection || ($connection['driver'] ?? '') !== 'duckdb') throw new \Exception("DuckDB connection named `" . $this->argument('connection_name') . "` not found!");
 
         $cmd = [
             $connection['cli_path'],
             $connection['dbfile']
         ];
-        if($isReadonly) array_splice($cmd, 1, 0, '--readonly');
+        if ($isReadonly) array_splice($cmd, 1, 0, '--readonly');
 
-        $this->info('Connecting to duckdb cli `'.implode(" ", $cmd).'`');
+        $this->info('Connecting to duckdb cli `' . implode(" ", $cmd) . '`');
         $this->process = new Process($cmd);
         $this->process->setTimeout(0);
         $this->process->setIdleTimeout(0);
@@ -43,8 +43,6 @@ class ConnectDuckdbCliCommand extends Command
     {
         $this->info('stopping...');
         $this->process->signal($signal);
-
-        // Retournez une valeur appropriée, par exemple le code de sortie précédent
-        return $previousExitCode;
+        return false;
     }
 }
