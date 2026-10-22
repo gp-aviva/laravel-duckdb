@@ -35,15 +35,11 @@ class DownloadDuckDBCliCommand extends Command
         }
     }
 
-    private function downloadCli($os, $arch, $version = null){
+   private function downloadCli($os, $arch, $version = null)
+   {
+        $version = $version ?: env('DUCKDB_CLI_VERSION', '1.5.6');
 
-        $duck_base_url = "https://github.com/duckdb/duckdb/releases/latest/download/duckdb_cli-__OS__-__PLATEFORM__.zip";
-
-        if ($version) {
-            $duck_base_url = "https://github.com/duckdb/duckdb/releases/download/v$version/duckdb_cli-__OS__-__PLATEFORM__.zip";
-        }
-
-        $url = str_replace(array('__OS__', '__PLATEFORM__'), array($os, $arch), $duck_base_url);
+        $url = "https://github.com/duckdb/duckdb/releases/download/v{$version}/duckdb_cli-{$os}-{$arch}.zip";
 
         $this->info("Downloading cli($url)...");
         $this->newLine();
